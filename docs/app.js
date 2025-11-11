@@ -296,16 +296,17 @@ async function loadNeuralNetwork() {
         
         // Carregar pesos do ficheiro CSV
         try {
-            const response = await fetch('weights/pesos.csv');
+            const weightsPath = resolveWeightsPath();
+            const response = await fetch(weightsPath);
             if (!response.ok) {
-                throw new Error('Não foi possível carregar os pesos. Certifique-se de que weights/pesos.csv existe.');
+                throw new Error(`Não foi possível carregar os pesos em ${weightsPath}.`);
             }
             
             const csvText = await response.text();
             neuralNetwork.loadWeightsFromCSV(csvText);
         } catch (weightsError) {
             console.warn('Falha ao carregar pesos:', weightsError);
-            throw new Error('Erro ao carregar weights/pesos.csv. Confira se treinou a rede com a arquitetura 784-256-128-10 e está a usar um servidor local.');
+            throw new Error('Erro ao carregar weights/pesos.csv. Confira se o ficheiro existe e se está a servir os ficheiros a partir da raiz do projeto.');
         }
         
         console.log('Rede neural carregada com sucesso!');
@@ -394,4 +395,21 @@ function updateProbabilities(probabilities) {
         li.innerHTML = `<span class="digit">${digit}</span><span class="value">${(value * 100).toFixed(2)}%</span>`;
         probabilitiesList.appendChild(li);
     });
+}
+
+function resolveWeightsPath() {
+    const path = window.location.pathname;
+    const trimTo = (segment) => path.includes(segment)
+        ? path.substring(0, path.indexOf(segment))
+        : null;
+
+    let base =
+        trimTo('/docs/') ??
+        trimTo('/web/') ??
+        (path.endsWith('/') ? path : path.substring(0, path.lastIndexOf('/') + 1));
+
+    if (!base.endsWith('/')) {
+        base += '/';
+    }
+    return `${base.replace(/\/+$/, '/') }weights/pesos.csv`;
 }
