@@ -296,7 +296,7 @@ async function loadNeuralNetwork() {
         
         // Carregar pesos do ficheiro CSV
         try {
-            const response = await fetch('../weights/pesos.csv');
+            const response = await fetch('weights/pesos.csv');
             if (!response.ok) {
                 throw new Error('Não foi possível carregar os pesos. Certifique-se de que weights/pesos.csv existe.');
             }
