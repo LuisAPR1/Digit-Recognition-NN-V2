@@ -1,5 +1,7 @@
 # MNIST Digit Recognition – Java Neural Network
 
+> The full neural-network pipeline (Java training backend + responsive web UI) is available online. You can test the hosted playground here: [https://luisapr1.github.io/Digit-Recognition-NN-V2/](https://luisapr1.github.io/Digit-Recognition-NN-V2/).
+
 End-to-end digit recognizer built from scratch: a Java backend that trains a feed-forward neural network on MNIST, and a responsive web frontend that lets you sketch digits and see predictions instantly.
 
 ## Contents
