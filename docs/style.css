@@ -23,6 +23,22 @@ body {
     min-height: 100vh;
 }
 
+/* Scrollbar styling */
+body::-webkit-scrollbar {
+    width: 10px;
+}
+body::-webkit-scrollbar-track {
+    background: #0a0d13;
+    border-radius: 999px;
+}
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(86, 180, 211, 0.6) 0%, rgba(57, 148, 177, 0.6) 100%);
+    border-radius: 999px;
+}
+body::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(123, 208, 231, 0.7) 0%, rgba(82, 160, 187, 0.7) 100%);
+}
+
 .hero {
     padding: 40px 6vw 20px;
     border-bottom: 1px solid var(--border);
@@ -66,12 +82,25 @@ body {
     border-radius: 14px;
     padding: 16px;
 }
+.usage-card p {
+    margin: 6px 0;
+    line-height: 1.6;
+    text-align: justify;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    padding-bottom: 5px;
+
+}
 
 .hero-highlights .stat {
     display: block;
     font-weight: 600;
     color: var(--primary);
     margin-bottom: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+   
 }
 
 .page {
@@ -385,4 +414,3 @@ body {
         width: 100%;
     }
 }
-

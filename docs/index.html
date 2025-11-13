@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digit Recognition Neural Network</title>
+    <link rel="icon" type="image/x-icon" href="images/mnist.ico">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,22 +14,19 @@
                 <p class="eyebrow">MNIST Playground</p>
                 <h1>Real-Time Digit Recognition</h1>
                 <p class="lead">
-                    A neural network trained from scratch in Java to classify digits 0-9. Draw on the canvas,
+                    A neural network trained from scratch in Java to classify digits 0-9. Draw on the canvass,
                     follow the preprocessing pipeline, and see how the model responds instantly in your browser.
                 </p>
             </div>
             <div class="hero-highlights">
-                <div>
-                    <span class="stat">784 → 256 → 128 → 10</span>
-                    <p>Fully-connected architecture using ReLU + Softmax.</p>
-                </div>
-                <div>
-                    <span class="stat">Mini-batch SGD</span>
-                    <p>Training with MNIST normalization and loss-based early stop.</p>
-                </div>
-                <div>
-                    <span class="stat">End-to-end</span>
-                    <p>Java backend, responsive UI, centralized 28×28 preview.</p>
+                <div class="usage-card">
+                    <span class="stat">Usage at a glance</span>
+                    <p>
+                        Sketch a digit directly in the 400×400 canvas (mouse or touch), then press
+                        “Run inference” to route it through the same preprocessing steps used during training.
+                        Watch the prediction, confidence and top-5 classes update instantly; hit “Clear” whenever
+                        you want to iterate and test new strokes.
+                    </p>
                 </div>
             </div>
         </div>
@@ -104,40 +102,42 @@
 
         <section class="info-grid">
             <article class="info-card">
-                <h4>How it works</h4>
-                <p>
-                    The drawing is reduced to 28×28, centered using the bounding box, and normalized with mean=0.1307,
-                    std=0.3081. The Java backend trains the network with mini-batches of 64 using Softmax +
-                    Cross-Entropy, exports the weights to `weights/pesos.csv`, and the frontend loads them for inference.
-                </p>
+                <h4>Pipeline overview</h4>
+                <ol>
+                    <li>Sketch a digit on the 400×400 canvas (mouse or touch).</li>
+                    <li>The UI trims the bounding box, scales to 28×28, inverts and standardizes the pixels.</li>
+                    <li>Weights from training session of this model are loaded into the JS mirror of the network.</li>
+                    <li>The dashboard displays prediction, confidence, top-5 classes, and the exact 28×28 preview.</li>
+                </ol>
             </article>
             <article class="info-card">
-                <h4>Architecture</h4>
+                <h4>Network &amp; training</h4>
                 <ul>
-                    <li>Input: 784 values (flattened 28×28)</li>
-                    <li>Hidden layers: 256 and 128 neurons with ReLU</li>
-                    <li>Output: 10 logits + Softmax</li>
-                    <li>Training: Mini-batch SGD (LR 0.1) with loss &lt; 0.05 early-stop</li>
+                    <li>Dense layers: 784 → 256 → 128 → 10 with ReLU + Softmax.</li>
+                    <li>Mini-batch SGD (batch 64), learning rate 0.1.</li>
+                    <li>Cross-Entropy loss; early stop threshold 0.0001 or rising loss over 10 epochs.</li>
+                    <li>Training converged at epoch 59 with final loss 0.00098.</li>
+                    <li>Standardization: <code>(pixel / 255 − 0.1307) / 0.3081</code>.</li>
+                    <li>Weights are exported to a csv file (the one that defines the model).</li>
                 </ul>
             </article>
             <article class="info-card">
-                <h4>How to use</h4>
-                <ol>
-                    <li>Draw a clear, centered digit with good contrast.</li>
-                    <li>Click “Run inference” to send the input.</li>
-                    <li>Observe the prediction, confidence, and top classes.</li>
-                    <li>Use “Clear” to quickly start a new sample.</li>
-                </ol>
+                <h4>What to watch</h4>
+                <ul>
+                    <li>The 28×28 preview mirrors exactly what the model ingests.</li>
+                    <li>Confidence bar = Softmax probability of the predicted digit.</li>
+                    <li>Top-5 list reveals how similar digits are ranked (e.g., 3 vs 8).</li>
+                    <li>Loss/accuracy metrics were recorded during training and summarized above.</li>
+                </ul>
             </article>
         </section>
     </main>
 
     <footer class="site-footer">
-        <p>Educational neural network implemented from scratch in Java + JavaScript. MNIST © Yann LeCun et al.</p>
+        <p>Educational neural network implemented from scratch in Java + JavaScript. Built by LuisR (GitHub: @LuisAPR1) using MNIST data.</p>
     </footer>
 
     <script src="neural-network.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
-
