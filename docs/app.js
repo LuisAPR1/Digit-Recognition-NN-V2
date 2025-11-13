@@ -411,5 +411,5 @@ function resolveWeightsPath() {
     if (!base.endsWith('/')) {
         base += '/';
     }
-    return `${base.replace(/\/+$/, '/') }weights/pesos.csv`;
+    return `${base.replace(/\/+$/, '/')}weights/pesos.csv`;
 }
