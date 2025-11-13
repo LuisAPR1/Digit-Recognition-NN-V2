@@ -296,7 +296,8 @@ async function loadNeuralNetwork() {
         
         // Carregar pesos do ficheiro CSV
         try {
-            const response = await fetch('../weights/pesos.csv');
+            const weightsPath = resolveWeightsPath();
+            const response = await fetch(weightsPath);
             if (!response.ok) {
                 throw new Error('Não foi possível carregar os pesos. Certifique-se de que weights/pesos.csv existe.');
             }
@@ -394,4 +395,21 @@ function updateProbabilities(probabilities) {
         li.innerHTML = `<span class="digit">${digit}</span><span class="value">${(value * 100).toFixed(2)}%</span>`;
         probabilitiesList.appendChild(li);
     });
+}
+
+function resolveWeightsPath() {
+    const path = window.location.pathname;
+    const trimTo = (segment) => path.includes(segment)
+        ? path.substring(0, path.indexOf(segment))
+        : null;
+
+    let base =
+        trimTo('/docs/') ??
+        trimTo('/web/') ??
+        (path.endsWith('/') ? path : path.substring(0, path.lastIndexOf('/') + 1));
+
+    if (!base.endsWith('/')) {
+        base += '/';
+    }
+    return `${base.replace(/\/+$/, '/') }weights/pesos.csv`;
 }
